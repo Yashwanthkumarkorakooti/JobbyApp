@@ -1,0 +1,99 @@
+/* Navbar container */
+.nav-header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow for better separation */
+  padding: 12px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Higher z-index to stay above other content */
+  backdrop-filter: saturate(180%) blur(10px); /* subtle glass effect (optional) */
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+}
+
+/* Inner content container */
+.nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Website logo */
+.logo {
+  height: 40px;
+  cursor: pointer;
+  user-select: none; /* prevent accidental text selection */
+  flex-shrink: 0; /* prevent shrinking on smaller screens */
+}
+
+/* Navigation menu */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  gap: 24px;
+}
+
+/* Each nav menu item */
+.nav-menu li {
+  margin: 0; /* removed margin-left to use gap on parent */
+}
+
+/* Links in nav menu */
+.nav-link {
+  text-decoration: none;
+  color: #0b69ff;
+  font-weight: 600;
+  font-size: 16px;
+  transition:
+    color 0.3s ease,
+    transform 0.2s ease;
+  outline-offset: 2px;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #084fc1;
+  transform: scale(1.05);
+  outline: none;
+}
+
+/* Logout button for mobile */
+.logout-mobile-btn {
+  background-color: #0b69ff;
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 2px 6px rgba(11, 105, 255, 0.4);
+}
+
+.logout-mobile-btn:hover,
+.logout-mobile-btn:focus {
+  background-color: #084fc1;
+  box-shadow: 0 4px 12px rgba(8, 79, 193, 0.6);
+  outline: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .nav-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .nav-menu {
+    margin-left: auto;
+    gap: 12px;
+  }
+}

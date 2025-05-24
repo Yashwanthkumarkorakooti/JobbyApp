@@ -1,0 +1,66 @@
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: calc(100vh - 60px); /* Adjust based on header height */
+  background: #f0f4ff;
+  text-align: center;
+}
+
+.home-content {
+  max-width: 700px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(11, 105, 255, 0.15);
+}
+
+.home-heading {
+  font-size: 2.5rem;
+  color: #0b69ff;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.home-description {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.find-jobs-button {
+  background-color: #0b69ff;
+  color: white;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.find-jobs-button:hover {
+  background-color: #084fc1;
+}
+
+@media (max-width: 600px) {
+  .home-heading {
+    font-size: 1.8rem;
+  }
+
+  .home-description {
+    font-size: 1rem;
+  }
+
+  .home-content {
+    padding: 15px;
+  }
+
+  .find-jobs-button {
+    width: 100%;
+    padding: 12px;
+  }
+}
