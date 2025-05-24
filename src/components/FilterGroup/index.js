@@ -1,3 +1,4 @@
+// FilterGroup.js
 import './index.css'
 
 const FilterGroup = props => {
@@ -17,15 +18,12 @@ const FilterGroup = props => {
   const onChangeSearchInput = event => updateSearchInput(event.target.value)
 
   const onEnterSearchInput = event => {
-    if (event.key === 'Enter') {
-      enterSearchInput()
-    }
+    if (event.key === 'Enter') enterSearchInput()
   }
 
-  const onClickSearchButton = () => {
-    enterSearchInput()
-  }
+  const onClickSearchButton = () => enterSearchInput()
 
+  // For multiple checkbox selection
   const onEmploymentTypeChange = event => {
     const selectedType = event.target.value
     const prevSelected = activeEmploymentTypeId.split(',')
@@ -45,24 +43,18 @@ const FilterGroup = props => {
       <div className="search-container">
         <input
           type="search"
-          className="search-input"
           value={searchInput}
           onChange={onChangeSearchInput}
           onKeyDown={onEnterSearchInput}
           placeholder="Search"
         />
-        <button
-          type="button"
-          className="search-button"
-          onClick={onClickSearchButton}
-          data-testid="searchButton"
-        >
+        <button type="button" onClick={onClickSearchButton}>
           Search
         </button>
       </div>
 
-      <h3 className="filter-heading">Employment Type</h3>
-      <ul className="filter-list">
+      <h3>Employment Type</h3>
+      <ul>
         {employmentTypesList.map(type => (
           <li key={type.employmentTypeId}>
             <input
@@ -78,8 +70,8 @@ const FilterGroup = props => {
         ))}
       </ul>
 
-      <h3 className="filter-heading">Salary Range</h3>
-      <ul className="filter-list">
+      <h3>Salary Range</h3>
+      <ul>
         {salaryRangesList.map(range => (
           <li key={range.salaryRangeId}>
             <input
@@ -95,11 +87,7 @@ const FilterGroup = props => {
         ))}
       </ul>
 
-      <button
-        type="button"
-        className="clear-filters-button"
-        onClick={clearFilters}
-      >
+      <button type="button" onClick={clearFilters}>
         Clear Filters
       </button>
     </div>
