@@ -1,5 +1,5 @@
-import {FiStar} from 'react-icons/fi'
-import {FaMapMarkerAlt, FaBriefcase} from 'react-icons/fa'
+// similarJobCard.js
+
 import './index.css'
 
 const SimilarJobCard = ({job}) => {
@@ -13,28 +13,16 @@ const SimilarJobCard = ({job}) => {
   } = job
 
   return (
-    <li className="similar-job-card" data-testid="similarJobCard">
-      <div className="logo-rating-container">
-        <img
-          src={companyLogoUrl}
-          alt={`${title} company logo`}
-          className="company-logo"
-        />
-        <div className="title-rating">
-          <h3 className="title">{title}</h3>
-          <p className="rating">
-            <FiStar className="star-icon" /> {rating}
-          </p>
+    <li className="similar-job-card">
+      <img src={companyLogoUrl} alt="similar job company logo" />
+      <div className="similar-job-container">
+        <h3 className="title">{title}</h3>
+        <p className="rating">⭐ {rating}</p>
+        <p className="job-description">{jobDescription}</p>
+        <div>
+          <p className="location">{location}</p>
+          <p className="employment-type">{employmentType}</p>
         </div>
-      </div>
-      <p className="job-description">{jobDescription}</p>
-      <div className="location-employment">
-        <p className="location">
-          <FaMapMarkerAlt className="icon" /> {location}
-        </p>
-        <p className="employment-type">
-          <FaBriefcase className="icon" /> {employmentType}
-        </p>
       </div>
     </li>
   )
