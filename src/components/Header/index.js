@@ -1,7 +1,7 @@
-import {Link} from 'react-router-dom'
+//Header.js
+import {Link, withRouter} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import './index.css'
-
 const Header = props => {
   const {history} = props
 
@@ -13,30 +13,29 @@ const Header = props => {
   return (
     <nav className="nav-header">
       <div className="nav-content">
-        <Link to="/" className="nav-logo-link">
+        <Link to="/">
           <img
             src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
-            alt="website logo"
-            className="website-logo"
+            alt="website-logo"
+            className="logo"
           />
         </Link>
         <ul className="nav-menu">
-          <li className="nav-menu-item">
+          <li>
             <Link to="/" className="nav-link">
               Home
             </Link>
           </li>
-          <li className="nav-menu-item">
+          <li>
             <Link to="/jobs" className="nav-link">
               Jobs
             </Link>
           </li>
-          <li className="nav-menu-item">
+          <li>
             <button
               type="button"
-              className="logout-button"
+              className="logout-mobile-btn"
               onClick={onClickLogout}
-              data-testid="logout"
             >
               Logout
             </button>
@@ -47,4 +46,4 @@ const Header = props => {
   )
 }
 
-export default Header
+export default withRouter(Header)
