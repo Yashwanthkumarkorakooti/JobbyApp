@@ -1,6 +1,8 @@
+// Job.js
 import {Component} from 'react'
-import { ThreeDots } from 'react-loader-spinner'
+import Loader from 'react-loader-spinner'
 import Cookies from 'js-cookie'
+import {Navigate} from 'react-router-dom'
 
 import JobDetails from '../JobDetails'
 import Header from '../Header'
@@ -21,12 +23,12 @@ const salaryRangesList = [
   {salaryRangeId: '4000000', label: '40 LPA and above'},
 ]
 
-class Jobs extends Component {
+class Job extends Component {
   state = {
     jobsList: [],
     isLoading: false,
     searchInput: '',
-    activeEmploymentTypeIds: [],
+    activeEmploymentTypeId: '',
     activeSalaryRangeId: '',
     isApiFailure: false,
   }
@@ -38,37 +40,20 @@ class Jobs extends Component {
   getJobDetails = async () => {
     this.setState({isLoading: true, isApiFailure: false})
     const jwtToken = Cookies.get('jwt_token')
-    const {searchInput, activeEmploymentTypeIds, activeSalaryRangeId} =
+    const {searchInput, activeEmploymentTypeId, activeSalaryRangeId} =
       this.state
-
-    const employmentTypesQuery = activeEmploymentTypeIds.length
-      ? `employment_type=${activeEmploymentTypeIds.join(',')}`
-      : ''
-    const salaryRangeQuery = activeSalaryRangeId
-      ? `minimum_package=${activeSalaryRangeId}`
-      : ''
-    const searchQuery = searchInput ? `search=${searchInput}` : ''
-
-    const queryParams = [employmentTypesQuery, salaryRangeQuery, searchQuery]
-      .filter(Boolean)
-      .join('&')
-
-    const apiUrl = `https://apis.ccbp.in/jobs${
-      queryParams ? '?' + queryParams : ''
-    }`
+    const apiurl = `https://apis.ccbp.in/jobs?employment_type=${activeEmploymentTypeId}&minimum_package=${activeSalaryRangeId}&search=${searchInput}`
 
     const options = {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
+      headers: {Authorization: `Bearer ${jwtToken}`},
       method: 'GET',
     }
 
-    try {
-      const response = await fetch(apiUrl, options)
-      if (response.ok) {
-        const data = await response.json()
-        const updatedData = data.jobs?.map(job => ({
+    const response = await fetch(apiurl, options)
+    if (response.ok) {
+      const data = await response.json()
+      const updatedData =
+        data.jobs?.map(job => ({
           companyLogoUrl: job.company_logo_url,
           employmentType: job.employment_type,
           id: job.id,
@@ -77,12 +62,9 @@ class Jobs extends Component {
           packagePerAnnum: job.package_per_annum,
           rating: job.rating,
           title: job.title,
-        }))
-        this.setState({jobsList: updatedData, isLoading: false})
-      } else {
-        this.setState({isLoading: false, isApiFailure: true})
-      }
-    } catch (error) {
+        })) || []
+      this.setState({jobsList: updatedData, isLoading: false})
+    } else {
       this.setState({isLoading: false, isApiFailure: true})
     }
   }
@@ -91,15 +73,11 @@ class Jobs extends Component {
 
   enterSearchInput = () => this.getJobDetails()
 
-  changeEmploymentType = employmentTypeId => {
-    this.setState(prevState => {
-      const {activeEmploymentTypeIds} = prevState
-      const updatedIds = activeEmploymentTypeIds.includes(employmentTypeId)
-        ? activeEmploymentTypeIds.filter(id => id !== employmentTypeId)
-        : [...activeEmploymentTypeIds, employmentTypeId]
-      return {activeEmploymentTypeIds: updatedIds}
-    }, this.getJobDetails)
-  }
+  changeEmploymentType = employmentTypeId =>
+    this.setState(
+      {activeEmploymentTypeId: employmentTypeId},
+      this.getJobDetails,
+    )
 
   changeSalaryRange = salaryRangeId =>
     this.setState({activeSalaryRangeId: salaryRangeId}, this.getJobDetails)
@@ -108,7 +86,7 @@ class Jobs extends Component {
     this.setState(
       {
         searchInput: '',
-        activeEmploymentTypeIds: [],
+        activeEmploymentTypeId: '',
         activeSalaryRangeId: '',
       },
       this.getJobDetails,
@@ -116,7 +94,7 @@ class Jobs extends Component {
   }
 
   renderNoJobsView = () => (
-    <div className="no-jobs-view">
+    <div className="no-products-view">
       <img
         src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
         alt="no jobs"
@@ -128,7 +106,7 @@ class Jobs extends Component {
   )
 
   renderFailureView = () => (
-    <div className="jobs-error-view">
+    <div className="products-error-view">
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
         alt="failure view"
@@ -138,11 +116,7 @@ class Jobs extends Component {
       <p>
         We are having some trouble processing your request. Please try again.
       </p>
-      <button
-        type="button"
-        onClick={this.getJobDetails}
-        data-testid="retry-button"
-      >
+      <button type="button" onClick={this.getJobDetails}>
         Retry
       </button>
     </div>
@@ -165,13 +139,7 @@ class Jobs extends Component {
 
   renderLoader = () => (
     <div className="products-loader-container" data-testid="loader">
-      <ThreeDots
-        height="50"
-        width="50"
-        color="#0b69ff"
-        ariaLabel="three-dots-loading"
-        visible={true}
-      />
+      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
     </div>
   )
 
@@ -179,7 +147,7 @@ class Jobs extends Component {
     const {
       isLoading,
       searchInput,
-      activeEmploymentTypeIds,
+      activeEmploymentTypeId,
       activeSalaryRangeId,
       isApiFailure,
     } = this.state
@@ -193,7 +161,7 @@ class Jobs extends Component {
           searchInput={searchInput}
           updateSearchInput={this.updateSearchInput}
           enterSearchInput={this.enterSearchInput}
-          activeEmploymentTypeIds={activeEmploymentTypeIds}
+          activeEmploymentTypeId={activeEmploymentTypeId}
           changeEmploymentType={this.changeEmploymentType}
           activeSalaryRangeId={activeSalaryRangeId}
           changeSalaryRange={this.changeSalaryRange}
@@ -209,4 +177,4 @@ class Jobs extends Component {
   }
 }
 
-export default Jobs
+export default Job
