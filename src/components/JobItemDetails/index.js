@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+//JobItemDetails
+import {useState, useEffect} from 'react'
+import {useParams} from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { ThreeDots } from 'react-loader-spinner';
-import { FiStar } from 'react-icons/fi'
-import { FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa'
+import Loader from 'react-loader-spinner'
+import {FiStar} from 'react-icons/fi'
+import {FaMapMarkerAlt, FaBriefcase} from 'react-icons/fa'
 import './index.css'
 
 const apiStatusConstants = {
@@ -17,11 +18,7 @@ const JobItemDetails = () => {
   const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial)
   const [jobDetails, setJobDetails] = useState({})
   const [similarJobs, setSimilarJobs] = useState([])
-  const { id } = useParams()
-
-  useEffect(() => {
-    getJobDetails()
-  }, [id])
+  const {id} = useParams()
 
   const getJobDetails = async () => {
     setApiStatus(apiStatusConstants.inProgress)
@@ -33,6 +30,10 @@ const JobItemDetails = () => {
       },
       method: 'GET',
     }
+
+    useEffect(() => {
+      getJobDetails()
+    }, [id])
 
     const response = await fetch(url, options)
     if (response.ok) {
@@ -72,11 +73,7 @@ const JobItemDetails = () => {
   const renderSkills = () =>
     jobDetails.skills?.map(skill => (
       <li key={skill.name} className="skill-item">
-        <img
-          src={skill.image_url}
-          alt={`${skill.name} icon`}
-          className="skill-icon"
-        />
+        <img src={skill.image_url} alt={skill.name} className="skill-icon" />
         <p>{skill.name}</p>
       </li>
     ))
@@ -84,25 +81,24 @@ const JobItemDetails = () => {
   const renderSimilarJobs = () =>
     similarJobs.map(job => (
       <li key={job.id} className="similar-job-item">
-        <div className="job-header">
-          <img src={job.companyLogoUrl} alt="company logo" className="logo" />
-          <div>
-            <h3>{job.title}</h3>
-            <p>
-              <FiStar className="icon" />
-              <span>{job.rating}</span>
-            </p>
-          </div>
-        </div>
-        <div className="job-info">
-          <p>{job.jobDescription}</p>
+        <img
+          src={job.companyLogoUrl}
+          alt="similar job company logo"
+          className="logo"
+        />
+        <div>
+          <h3>{job.title}</h3>
           <p>
-            <FaMapMarkerAlt className="icon" /> {job.location}
-          </p>
-          <p>
-            <FaBriefcase className="icon" /> {job.employmentType}
+            <FiStar className="icon" /> {job.rating}
           </p>
         </div>
+        <p>{job.jobDescription}</p>
+        <p>
+          <FaMapMarkerAlt className="icon" /> {job.location}
+        </p>
+        <p>
+          <FaBriefcase className="icon" /> {job.employmentType}
+        </p>
       </li>
     ))
 
@@ -123,12 +119,15 @@ const JobItemDetails = () => {
       <div className="job-details-container">
         <div className="job-card">
           <div className="job-header">
-            <img src={companyLogoUrl} alt="company logo" className="logo" />
+            <img
+              src={companyLogoUrl}
+              alt="job details company logo"
+              className="logo"
+            />
             <div>
               <h1>{title}</h1>
               <p>
-                <FiStar className="icon" />
-                <span>{rating}</span>
+                <FiStar className="icon" /> {rating}
               </p>
             </div>
           </div>
@@ -143,35 +142,30 @@ const JobItemDetails = () => {
           </div>
           <hr />
           <div className="job-description-section">
-            <div className="description-heading">
-              <h2>Description</h2>
-              <a
-                href={companyWebsiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="company-website-link"
-              >
-                Visit
-              </a>
-            </div>
+            <h2>Description</h2>
+            <a
+              href={companyWebsiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit
+            </a>
             <p>{jobDescription}</p>
           </div>
 
           <div className="skills-section">
-            <h2>Skills</h2>
+            <h3>Skills</h3>
             <ul className="skills-list">{renderSkills()}</ul>
           </div>
 
           <div className="life-at-company-section">
-            <h2>Life at Company</h2>
-            <div className="life-content">
-              <p>{lifeAtCompany?.description}</p>
-              <img
-                src={lifeAtCompany?.image_url}
-                alt="life at company"
-                className="life-image"
-              />
-            </div>
+            <h3>Life at Company</h3>
+            <p>{lifeAtCompany?.description}</p>
+            <img
+              src={lifeAtCompany?.image_url}
+              alt="life at company"
+              className="life-image"
+            />
           </div>
         </div>
 
@@ -199,13 +193,7 @@ const JobItemDetails = () => {
 
   const renderLoader = () => (
     <div className="loader-container" data-testid="loader">
-      <ThreeDots
-        height="50"
-        width="50"
-        color="#0b69ff"
-        ariaLabel="three-dots-loading"
-        visible={true}
-/>
+      <Loader type="ThreeDots" color="#0b69ff" height={50} width={50} />
     </div>
   )
 
