@@ -1,4 +1,6 @@
+// JobDetails
 import {Link} from 'react-router-dom'
+
 import {FiStar} from 'react-icons/fi'
 import {FaMapMarkerAlt, FaBriefcase} from 'react-icons/fa'
 import './index.css'
@@ -17,41 +19,31 @@ const JobDetails = props => {
   } = eachJob
 
   return (
-    <li className="jobs-item">
-      <Link to={`/jobs/${id}`} className="item-link">
+    <Link to={`/jobs/${id}`} className="item-link">
+      <li className="jobs-item">
         <div className="job-header">
-          <img
-            src={companyLogoUrl}
-            alt="company logo"
-            className="logo"
-          />
-          <div className="job-title-rating">
+          <img src={companyLogoUrl} alt="company logo" className="logo" />
+          <div>
             <h1 className="company-name">{title}</h1>
             <p className="company-rating">
-              <FiStar className="icon star-icon" />
-              <span>{rating}</span>
+              <FiStar className="icon" /> {rating}
             </p>
           </div>
         </div>
-
         <div className="job-info">
-          <div className="job-meta">
-            <FaMapMarkerAlt className="icon" />
-            <p className="job-meta-text">{location}</p>
-          </div>
-          <div className="job-meta">
-            <FaBriefcase className="icon" />
-            <p className="job-meta-text">{employmentType}</p>
-          </div>
-          <p className="job-salary">{packagePerAnnum}</p>
+          <p>
+            <FaMapMarkerAlt className="icon" /> {location}
+          </p>
+          <p>
+            <FaBriefcase className="icon" /> {employmentType}
+          </p>
+          <p>{packagePerAnnum}</p>
         </div>
-
-        <hr className="divider" />
-
-        <h1 className="job-description-heading">Description</h1>
-        <p className="job-description">{jobDescription}</p>
-      </Link>
-    </li>
+        <hr />
+        <h2>Description</h2>
+        <p>{jobDescription}</p>
+      </li>
+    </Link>
   )
 }
 
